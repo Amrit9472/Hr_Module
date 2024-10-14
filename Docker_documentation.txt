@@ -1,0 +1,123 @@
+1. what is dockerfile?
+   text document which contain all the commands that a user can call on the command line to assemble an image.
+   
+   dockerImage
+   Template to create docker container
+   
+   docker 
+   
+   Steps 1
+   important command for docker
+   first checking the version
+   docker --version;
+   
+   it will automtically run the image
+   
+   What is an image?  
+   Docker images are read-only templates that contain instructions for creating a container.
+   A Docker image is a snapshot or blueprint of the libraries and dependencies required inside a container for an application to run.
+   
+   docker run hello-world
+   It will give me a error if locally not find  
+   Unable to find image 'hello-world:latest' locally   
+
+
+   this command give me details of every container which is run locally in my system 
+   docker ps 
+   
+   this will give me every contain which is runing and stop container 
+   docker ps -a
+   
+   if we want to see images on my system we can run command 
+   docker images
+   
+   if you want to remove contain we have to remove image first 
+   
+   this command remove this images 
+   docker rmi [image id] b038788ddb22
+   
+   Steps 1
+   first step to search the images 
+   docker search hello-world 
+   
+   Steps 2 
+   pull the images 
+   docker pull hello-world;
+   
+   Step 3 
+   docker image
+   
+  --------------------- This is how we use JDK inside a Container -----------------------------------
+   To install jdk one our docker 
+   -> We have to search on docker hub first time to install jbk 
+   -> next we have to pull the jbk to local docker 
+   cmd ->[docker pull openjdk:22-jdk] // this command pull the image from docker hub
+   -> now have to check the image for that we have to run command 
+   cmd ->[docker images];
+   -> we have to run the jdk now 
+   cmd ->[docker run [Repository name and Tag we have to Provide] openjdk:22-jdk]
+
+   it will run and detches the jshell.
+   cmd ->[docker run -dit openjdk:22-jbk]
+ 
+   it will run and jshell
+   cmd ->[docker run -it openjdk:22-jbk] 
+   this it give all runing image and we can see that jdk is stile runing in my container 
+   cmd -> [docker ps]
+   
+   ------------------ Packing the spring Boot Web App ------------------------------------------------
+   -> 1 Step to create our jar file for Spring Boot App.
+   -> 2 After that we have to run image into docker containter
+   -> 3 After that we have register that image into a cotainer but when we register
+   
+   -> this commond will show us all the folder of jdk inside jdb folder so one folder we can use here is [temp or user]
+   cmd [docker exec[execute] [contain name / contain id] ls a]
+   
+   -> so when we want to go inside that folder we have pass at place of [a] folderName that is in my case is temp
+   cmd [docker exec[execute] [contain name / contain id] ls/tmp]
+   
+   -> now we want to take that jar file inside that folder and then we run that jar file for that we have to copy the jar 
+   file first and then run that jar file.
+   cmd [docker cp target/rest-demo.jar gifted_elbakyan[containName]:/temp]
+   
+   -> for verification we will run a commond 
+   cmd [docker exec targrt/rest-demo.jar gifted_elbakyan ls/tmp]
+   
+   -> Now i have to create image of that contain now 
+   cmd [docker commit [containName]gifted_elbakyan  telusko/rest-demo:v1]
+   after this command we will get our imges ready but it will run a json but we dont want a json we want run as spring boot application
+   for that we have to change default command to run container is jshell 
+  
+  -> Now we have to chnage the default jshell to cmd that we can do it by
+   cmd docker commit --change='CMD["java","-jar","/temp/rest-demo.jar"]'gifted_elbakyan telusko/rest-demo:v2
+  -> Now we have run and check that we have change for that cmd 
+   cmd [docker run telusko/rest-demo:v2] so it run but when we hit url it show not runing
+   this is beacuse when we run any application in it run on docker machine port not in our local machine port 
+   for run in our local machine port we have to exposed our port for that cmd is 
+   cmd [docker run -p 8081:8081 telusko/rest-demo:v2]
+  ----------------------------- Docker file for Docker Images--------------------------------------------   
+  inside project we have to create a docker file and we have write 
+  FROM openjdk:22-jdk
+  ADD telusko/rest-demo.jar rest-demo.jar
+  ENTRYPOINT ["java","jar","/rest-demo.jar"]
+  
+  
+  after this we have to build the project for that the command is 
+  cmd [docker build -t telusko/rest-demo:v3 .]
+  
+  this will give you all image which is there in container
+  docker image
+  
+  docker run -p 8081:8081 telusko/rest-demo:v3
+  
+  ------------------------------ web App with Postgres ------------------------------------------
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
