@@ -1,1 +1,12 @@
-
+1 How make an object in an Amazon S3 bucket public ?
+Ans To make an object in an Amazon S3 bucket public, you need to configure both the bucket policy 
+    and the object's permissions.
+    Option 1: Using the AWS Management Console
+    1. Set Permissions for the Object:
+    Go to the S3 Console.
+    Navigate to the bucket where the object is stored.
+    Click on the object you want to make public.
+    Go to the Permissions tab.
+    Scroll down to Access Control List (ACL).
+    Under Public Access, you will see an option to grant public read access.
+    Check the box for Everyone (public access), and enable Read permissions.
